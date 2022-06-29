@@ -1,17 +1,15 @@
-version: '2'
+version: "3.9"
 
 services:
   db:
-    image: mariadb
+    image: postgres:alpine
     restart: always
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     volumes:
-      - ./db:/var/lib/mysql
+      - ./db:/var/lib/postgresql/data
     environment:
-      - MYSQL_ROOT_PASSWORD=s3cr3t
-      - MYSQL_PASSWORD=s3cr3t
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=s3cr3t
 
   app:
     image: nextcloud
@@ -24,7 +22,7 @@ services:
       - ./nextcloud:/var/www/html
       - ./data:/var/www/html/data
     environment:
-      - MYSQL_PASSWORD=s3cr3t
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=db
+      - POSTGRES_PASSWORD=s3cr3t
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_HOST=db
